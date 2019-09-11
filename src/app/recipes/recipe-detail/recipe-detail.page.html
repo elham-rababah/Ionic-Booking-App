@@ -3,7 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/recipes"></ion-back-button>
     </ion-buttons>
-    <ion-title>recipeDetail</ion-title>
+    <ion-title>{{ recipe.title }} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="deleteRecipe()" slot="end">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

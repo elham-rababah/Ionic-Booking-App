@@ -6,7 +6,7 @@ import { Recipe } from "./recipe.model";
 })
 export class RecipesService {
   constructor() {}
-  recipes: Recipe[] = [
+  private recipes: Recipe[] = [
     {
       id: "1",
       title: "Shrimp Tacos with Avocado Crema",
@@ -39,5 +39,10 @@ export class RecipesService {
         return recipe.id == id;
       })
     };
+  }
+  deleteRecipeById(id) {
+    this.recipes = this.recipes.filter(recipe => {
+      return recipe.id !== id;
+    });
   }
 }
