@@ -6,7 +6,10 @@
 
 <ion-content>
   <ion-list>
-    <app-recipes-item *ngFor="let recipe of recipes"></app-recipes-item>
+    <app-recipes-item
+      *ngFor="let recipe of recipes"
+      [recipeItem]="recipe"
+    ></app-recipes-item>
     <!-- <ion-item
       *ngFor="let recipe of recipes"
       [routerLink]="['/recipes/', recipe.id]"
