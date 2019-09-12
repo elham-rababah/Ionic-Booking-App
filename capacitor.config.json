@@ -1,0 +1,7 @@
+{
+  "appId": "com.recipes.app",
+  "appName": "ionic ",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}
