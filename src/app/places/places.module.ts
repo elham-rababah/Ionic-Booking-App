@@ -1,26 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { Routes, RouterModule } from "@angular/router";
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from "@ionic/angular";
 
-import { PlacesPage } from './places.page';
+import { PlacesPage } from "./places.page";
+import { PlacesRoutingModule } from "./places.routing.module";
 
-const routes: Routes = [
-  {
-    path: '',
-    component: PlacesPage
-  }
-];
+// const routes: Routes = [
+//   {
+//     path: '',
+//     component: PlacesPage
+//   }
+// ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, PlacesRoutingModule],
   declarations: [PlacesPage]
 })
 export class PlacesPageModule {}
