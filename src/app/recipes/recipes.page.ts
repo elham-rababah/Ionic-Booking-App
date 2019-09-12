@@ -9,15 +9,12 @@ import { RecipesService } from "./recipes.service";
 })
 export class RecipesPage implements OnInit, OnDestroy {
   recipes: Recipe[];
-  constructor(private recipesService: RecipesService) {
-    this.recipes = this.recipesService.getAllRecipes();
-  }
+  constructor(private recipesService: RecipesService) {}
 
   ngOnInit() {}
   ngOnDestroy() {}
   ionViewWillEnter() {
     this.recipes = this.recipesService.getAllRecipes();
-    console.log(this.recipes);
     console.log("ionViewWillEnter");
   }
   ionViewDidEnter() {
