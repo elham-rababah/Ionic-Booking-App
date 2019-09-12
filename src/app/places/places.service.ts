@@ -39,4 +39,17 @@ export class PlacesService {
   getAllPlaces() {
     return [...this.places];
   }
+
+  getPlaceById(id) {
+    return {
+      ...this.places.find(recipe => {
+        return recipe.id == id;
+      })
+    };
+  }
+  deleteRecipeById(id) {
+    this.places = this.places.filter(recipe => {
+      return recipe.id !== id;
+    });
+  }
 }
