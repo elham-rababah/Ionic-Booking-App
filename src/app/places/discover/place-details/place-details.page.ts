@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { NavController } from "@ionic/angular";
+import { Router, ActivatedRoute } from "@angular/router";
+import { NavController, ModalController } from "@ionic/angular";
+import { CreateBookingComponent } from "src/app/bookings/create-booking/create-booking.component";
+import { PlacesService } from "../../places.service";
+import { Place } from "../../places.model";
 
 @Component({
   selector: "app-place-details",
@@ -8,10 +11,37 @@ import { NavController } from "@ionic/angular";
   styleUrls: ["./place-details.page.scss"]
 })
 export class PlaceDetailsPage implements OnInit {
-  constructor(private router: Router, private navCtrl: NavController) {}
+  place: Place;
+  constructor(
+    private modalCtrl: ModalController,
+    private activatedRoute: ActivatedRoute,
+    private placesService: PlacesService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.activatedRoute.paramMap.subscribe(paramMap => {
+      if (!paramMap.has("id")) {
+        //redirect
+      } else {
+        this.place = this.placesService.getPlaceById(paramMap["params"]["id"]);
+      }
+    });
+  }
   onBookPlace() {
-    this.navCtrl.navigateBack("/places/tabs/discover");
+    this.modalCtrl
+      .create({
+        component: CreateBookingComponent,
+        componentProps: {
+          selectedPlace: this.place
+        }
+      })
+      .then(ele => {
+        ele.present();
+        return ele.onDidDismiss();
+      })
+      .then(data => {
+        console.log(data);
+      });
+    // this.navCtrl.navigateBack("/places/tabs/discover");
   }
 }

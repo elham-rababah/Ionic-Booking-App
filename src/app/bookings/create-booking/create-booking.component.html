@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ selectedPlace.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onClose()">
+        <ion-icon slot="start" name="close"></ion-icon>
+        Close
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  {{ selectedPlace.descriptions }}
+  <ion-button (click)="onBooking()" color="primary">
+    Book!!!!
+  </ion-button>
+</ion-content>
