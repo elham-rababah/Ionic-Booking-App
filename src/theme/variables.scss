@@ -3,33 +3,33 @@
 
 /** Ionic CSS Variables **/
 :root {
-  --ion-color-primary: #7044ff;
-  --ion-color-primary-rgb: 112, 68, 255;
+  --ion-color-primary: #800080;
+  --ion-color-primary-rgb: 128, 0, 128;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #633ce0;
-  --ion-color-primary-tint: #7e57ff;
+  --ion-color-primary-shade: #710071;
+  --ion-color-primary-tint: #8d1a8d;
 
-  --ion-color-secondary: #a94ba2;
-  --ion-color-secondary-rgb: 169, 75, 162;
-  --ion-color-secondary-contrast: #ffffff;
-  --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #95428f;
-  --ion-color-secondary-tint: #b25dab;
+  --ion-color-secondary: #dc768f;
+  --ion-color-secondary-rgb: 220, 118, 143;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #c2687e;
+  --ion-color-secondary-tint: #e0849a;
 
-  --ion-color-tertiary: #a58aff;
-  --ion-color-tertiary-rgb: 165, 138, 255;
+  --ion-color-tertiary: #c87bc4;
+  --ion-color-tertiary-rgb: 200, 123, 196;
   --ion-color-tertiary-contrast: #000000;
   --ion-color-tertiary-contrast-rgb: 0, 0, 0;
-  --ion-color-tertiary-shade: #9179e0;
-  --ion-color-tertiary-tint: #ae96ff;
+  --ion-color-tertiary-shade: #b06cac;
+  --ion-color-tertiary-tint: #ce88ca;
 
-  --ion-color-success: #31d21a;
-  --ion-color-success-rgb: 49, 210, 26;
-  --ion-color-success-contrast: #000000;
-  --ion-color-success-contrast-rgb: 0, 0, 0;
-  --ion-color-success-shade: #2bb917;
-  --ion-color-success-tint: #46d731;
+  --ion-color-success: #10dc60;
+  --ion-color-success-rgb: 16, 220, 96;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #0ec254;
+  --ion-color-success-tint: #28e070;
 
   --ion-color-warning: #ffce00;
   --ion-color-warning-rgb: 255, 206, 0;
@@ -66,6 +66,6 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-  --ion-toolbar-background: #7044ff;
+  --ion-toolbar-background: var(--ion-color-primary);
   --ion-toolbar-color: #fff;
 }
