@@ -11,6 +11,7 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./auth.page.scss"]
 })
 export class AuthPage implements OnInit {
+  isLogin: boolean = true;
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -32,5 +33,18 @@ export class AuthPage implements OnInit {
 
   onSubmit(f: NgForm) {
     console.log(f);
+    if (!f.valid) {
+      return;
+    }
+    if (this.isLogin) {
+      //send to loign service
+      this.login();
+    } else {
+      //send to sign up service
+    }
+  }
+
+  onChangeAuthMode() {
+    this.isLogin = !this.isLogin;
   }
 }
