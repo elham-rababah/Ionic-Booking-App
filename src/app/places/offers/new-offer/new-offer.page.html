@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>New Offer</ion-title>
     <ion-buttons slot="primary">
-      <ion-button (click)="onCreateOffer()" [disabled]="!from.valid">
+      <ion-button (click)="onCreateOffer()" [disabled]="!form.valid">
         <ion-icon slot="icon-only" name="checkmark"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -44,8 +44,9 @@
             *ngIf="
               form.get('description').invalid && form.get('description').touched
             "
+            lines="none"
           >
-            <ion-label position="floating">
+            <ion-label position="floating" color="danger">
               Description Must be between 0 and 180 char</ion-label
             ></ion-item
           >

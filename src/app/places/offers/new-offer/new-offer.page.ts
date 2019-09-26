@@ -37,5 +37,11 @@ export class NewOfferPage implements OnInit {
   onCreateOffer() {
     console.log("onCreateOffer");
     console.log(this.form.value);
+
+    console.log(this.form.value);
+    if (!this.form.valid) {
+      return;
+    }
+    // call the service
   }
 }
