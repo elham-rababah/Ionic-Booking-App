@@ -45,7 +45,7 @@ export class CreateBookingComponent implements OnInit {
     if (!f.valid /*  || !this.dateValid() */) {
       return;
     }
-    this.modalCtrl.dismiss({ bookingData: this.from.value });
+    this.modalCtrl.dismiss({ bookingData: this.from.value }, "Confirm");
   }
   dateValid() {
     console.log(this.from.value);
