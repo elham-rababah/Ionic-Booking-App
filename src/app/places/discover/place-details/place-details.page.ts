@@ -15,7 +15,7 @@ import { Place } from "../../places.model";
   styleUrls: ["./place-details.page.scss"]
 })
 export class PlaceDetailsPage implements OnInit {
-  place: Place;
+  place: any;
   constructor(
     private modalCtrl: ModalController,
     private activatedRoute: ActivatedRoute,
@@ -28,7 +28,11 @@ export class PlaceDetailsPage implements OnInit {
       if (!paramMap.has("id")) {
         //redirect
       } else {
-        this.place = this.placesService.getPlaceById(paramMap["params"]["id"]);
+        this.placesService
+          .getPlaceById(paramMap["params"]["id"])
+          .subscribe(place => {
+            this.place = place;
+          });
       }
     });
   }

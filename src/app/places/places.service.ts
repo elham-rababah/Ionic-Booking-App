@@ -1,11 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Place } from "./places.model";
+import { BehaviorSubject, Observable } from "rxjs";
+import { take, map } from "rxjs/operators";
+import { AuthService } from "../auth/auth.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class PlacesService {
-  private places: Place[] = [
+  private places = new BehaviorSubject<Place[]>([
     new Place(
       "1",
       "place1",
@@ -13,7 +16,8 @@ export class PlacesService {
       "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
       1,
       new Date("2019-01-01"),
-      new Date("2019-12-31")
+      new Date("2019-12-31"),
+      "2017"
     ),
     new Place(
       "2",
@@ -22,7 +26,8 @@ export class PlacesService {
       "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
       2,
       new Date("2019-01-01"),
-      new Date("2019-12-31")
+      new Date("2019-12-31"),
+      "2017"
     ),
     new Place(
       "3",
@@ -31,7 +36,8 @@ export class PlacesService {
       "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
       3,
       new Date("2019-01-01"),
-      new Date("2019-12-31")
+      new Date("2019-12-31"),
+      "2017"
     ),
     new Place(
       "4",
@@ -40,24 +46,43 @@ export class PlacesService {
       "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
       4,
       new Date("2019-01-01"),
-      new Date("2019-12-31")
+      new Date("2019-12-31"),
+      "2017"
     )
-  ];
-  constructor() {}
+  ]);
+  constructor(private authService: AuthService) {}
   getAllPlaces() {
-    return [...this.places];
+    return this.places.asObservable();
   }
 
   getPlaceById(id) {
-    return {
-      ...this.places.find(recipe => {
-        return recipe.id == id;
+    return this.places.pipe(
+      take(1),
+      map(places => {
+        return { ...places.find(p => p.id === id) };
       })
-    };
+    );
   }
-  deleteRecipeById(id) {
-    this.places = this.places.filter(recipe => {
-      return recipe.id !== id;
+
+  addNewPlace(
+    title: string,
+    descriptions: string,
+    price: number,
+    availableFrom: Date,
+    availableTo: Date
+  ) {
+    let newPlace = new Place(
+      Math.random().toString(),
+      title,
+      descriptions,
+      "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
+      price,
+      availableFrom,
+      availableTo,
+      this.authService.getUserId()
+    );
+    this.places.pipe(take(1)).subscribe(places => {
+      this.places.next(places.concat(newPlace));
     });
   }
 }

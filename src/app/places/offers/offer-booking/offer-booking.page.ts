@@ -10,7 +10,7 @@ import { Place } from "../../places.model";
   styleUrls: ["./offer-booking.page.scss"]
 })
 export class OfferBookingPage implements OnInit {
-  offer: Place;
+  offer: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController,
@@ -22,7 +22,11 @@ export class OfferBookingPage implements OnInit {
       if (!paramMap.has("id")) {
         //redirect
       } else {
-        this.offer = this.placesService.getPlaceById(paramMap["params"]["id"]);
+        this.placesService
+          .getPlaceById(paramMap["params"]["id"])
+          .subscribe(offer => {
+            this.offer = offer;
+          });
       }
     });
   }

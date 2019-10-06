@@ -12,7 +12,7 @@ import { Place } from "../../places.model";
 })
 export class EditOfferPage implements OnInit {
   form: FormGroup;
-  offer: Place;
+  offer: any;
   constructor(
     private modalCtrl: ModalController,
     private activatedRoute: ActivatedRoute,
@@ -24,7 +24,11 @@ export class EditOfferPage implements OnInit {
       if (!paramMap.has("id")) {
         //redirect
       } else {
-        this.offer = this.placesService.getPlaceById(paramMap["params"]["id"]);
+        this.placesService
+          .getPlaceById(paramMap["params"]["id"])
+          .subscribe(place => {
+            this.offer = place;
+          });
       }
     });
     this.form = new FormGroup({
