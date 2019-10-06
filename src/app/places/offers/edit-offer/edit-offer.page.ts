@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ModalController } from "@ionic/angular";
-import { ActivatedRoute } from "@angular/router";
+import { ModalController, LoadingController } from "@ionic/angular";
+import { ActivatedRoute, Router } from "@angular/router";
 import { PlacesService } from "../../places.service";
 import { Place } from "../../places.model";
 
@@ -16,7 +16,9 @@ export class EditOfferPage implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private activatedRoute: ActivatedRoute,
-    private placesService: PlacesService
+    private placesService: PlacesService,
+    public loadingController: LoadingController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -48,6 +50,21 @@ export class EditOfferPage implements OnInit {
     if (!this.form.valid) {
       return;
     }
+    this.loadingController.create({ message: "Updating Place" }).then(ele => {
+      ele.present();
+      this.placesService
+        .updatePlace(
+          this.offer.id,
+          this.form.value.title,
+          this.form.value.description
+        )
+        .subscribe(() => {
+          ele.dismiss();
+          this.form.reset();
+          this.router.navigateByUrl("/places/tabs/offers");
+        });
+    });
+
     // call the service
   }
 }

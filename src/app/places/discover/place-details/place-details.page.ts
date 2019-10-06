@@ -3,11 +3,14 @@ import { Router, ActivatedRoute } from "@angular/router";
 import {
   NavController,
   ModalController,
-  ActionSheetController
+  ActionSheetController,
+  LoadingController
 } from "@ionic/angular";
 import { CreateBookingComponent } from "src/app/bookings/create-booking/create-booking.component";
 import { PlacesService } from "../../places.service";
 import { Place } from "../../places.model";
+import { Booking } from "src/app/bookings/booking.model";
+import { BookingsService } from "src/app/bookings/bookings.service";
 
 @Component({
   selector: "app-place-details",
@@ -20,7 +23,10 @@ export class PlaceDetailsPage implements OnInit {
     private modalCtrl: ModalController,
     private activatedRoute: ActivatedRoute,
     private placesService: PlacesService,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private bookingsService: BookingsService,
+    private router: Router,
+    private loadingController: LoadingController
   ) {}
 
   ngOnInit() {
@@ -75,8 +81,29 @@ export class PlaceDetailsPage implements OnInit {
         return ele.onDidDismiss();
       })
       .then(data => {
-        console.log(data);
+        var bookingData = data.data["bookingData"];
+        if (data.role == "Confirm") {
+          this.loadingController
+            .create({ message: "Creating Booking" })
+            .then(ele => {
+              ele.present();
+              this.bookingsService
+                .addBooking(
+                  this.place.id,
+                  this.place.title,
+                  this.place.url,
+                  bookingData["first-name"],
+                  bookingData["last-name"],
+                  bookingData["guest-num"],
+                  bookingData["from-date"],
+                  bookingData["to-date"]
+                )
+                .subscribe(() => {
+                  ele.dismiss();
+                  this.router.navigateByUrl("/bookings");
+                });
+            });
+        }
       });
-    // this.navCtrl.navigateBack("/places/tabs/discover");
   }
 }
