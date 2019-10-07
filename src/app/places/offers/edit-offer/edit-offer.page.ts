@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ModalController, LoadingController } from "@ionic/angular";
+import {
+  ModalController,
+  LoadingController,
+  AlertController
+} from "@ionic/angular";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PlacesService } from "../../places.service";
 import { Place } from "../../places.model";
@@ -13,12 +17,15 @@ import { Place } from "../../places.model";
 export class EditOfferPage implements OnInit {
   form: FormGroup;
   offer: any;
+  isLoading = false;
+  placeId;
   constructor(
     private modalCtrl: ModalController,
     private activatedRoute: ActivatedRoute,
     private placesService: PlacesService,
     public loadingController: LoadingController,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -26,22 +33,44 @@ export class EditOfferPage implements OnInit {
       if (!paramMap.has("id")) {
         //redirect
       } else {
-        this.placesService
-          .getPlaceById(paramMap["params"]["id"])
-          .subscribe(place => {
+        this.placeId = paramMap["params"]["id"];
+        this.isLoading = true;
+        this.placesService.getPlaceById(paramMap["params"]["id"]).subscribe(
+          place => {
             this.offer = place;
-          });
+
+            this.form = new FormGroup({
+              title: new FormControl(this.offer.title, {
+                updateOn: "blur",
+                validators: [Validators.required]
+              }),
+              description: new FormControl(this.offer.descriptions, {
+                updateOn: "blur",
+                validators: [Validators.required, Validators.maxLength(180)]
+              })
+            });
+            this.isLoading = false;
+          },
+          error => {
+            this.alertController
+              .create({
+                header: " An Error occurred",
+                message: "Some thing error happend",
+                buttons: [
+                  {
+                    text: "Okay",
+                    handler: () => {
+                      this.router.navigate(["/places/tabs/offers"]);
+                    }
+                  }
+                ]
+              })
+              .then(ele => {
+                ele.present();
+              });
+          }
+        );
       }
-    });
-    this.form = new FormGroup({
-      title: new FormControl(this.offer.title, {
-        updateOn: "blur",
-        validators: [Validators.required]
-      }),
-      description: new FormControl(this.offer.descriptions, {
-        updateOn: "blur",
-        validators: [Validators.required, Validators.maxLength(180)]
-      })
     });
   }
 

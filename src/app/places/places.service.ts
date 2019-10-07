@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Place } from "./places.model";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { take, map, tap, delay, switchMap } from "rxjs/operators";
 import { AuthService } from "../auth/auth.service";
 import { HttpClient } from "@angular/common/http";
@@ -83,12 +83,30 @@ export class PlacesService {
   }
 
   getPlaceById(id) {
-    return this.places.pipe(
-      take(1),
-      map(places => {
-        return { ...places.find(p => p.id === id) };
-      })
-    );
+    return this.http
+      .get<Place>(
+        `https://ionic-a4d3c.firebaseio.com/offered-places/${id}.json`
+      )
+      .pipe(
+        map(res => {
+          return new Place(
+            id,
+            res.title,
+            res.descriptions,
+            res.url,
+            res.price,
+            new Date(res.availableFrom),
+            new Date(res.availableTo),
+            res.userId
+          );
+        })
+      );
+    // return this.places.pipe(
+    //   take(1),
+    //   map(places => {
+    //     return { ...places.find(p => p.id === id) };
+    //   })
+    // );
   }
 
   addNewPlace(
@@ -134,6 +152,13 @@ export class PlacesService {
     let updatedPlaces: Place[];
     return this.places.pipe(
       take(1),
+      switchMap(places => {
+        if (!places || places.length <= 0) {
+          return this.getAllPlaces();
+        } else {
+          return of(places);
+        }
+      }),
       switchMap(places => {
         const updatedPlaceIndex = places.findIndex(pl => pl.id === placeId);
         updatedPlaces = [...places];
