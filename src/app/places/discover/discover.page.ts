@@ -20,6 +20,13 @@ export class DiscoverPage implements OnInit {
     });
   }
 
+  ionViewWillEnter() {
+    this.placesService.getAllPlaces().subscribe(places => {
+      this.loadedPlaces = places;
+      this.listedLoadedPlaces = this.loadedPlaces.slice(1);
+    });
+  }
+
   segmentChanged(event: CustomEvent<SegmentChangeEventDetail>) {
     console.log(event.detail);
   }

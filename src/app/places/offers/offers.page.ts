@@ -11,11 +11,20 @@ import { Router } from "@angular/router";
 })
 export class OffersPage implements OnInit {
   loadedOffers: Place[];
+  isLoading: boolean = false;
   constructor(private placesService: PlacesService, private router: Router) {}
 
   ngOnInit() {
     this.placesService.getAllPlaces().subscribe(places => {
       this.loadedOffers = places;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.placesService.getAllPlaces().subscribe(offers => {
+      this.loadedOffers = offers;
+      this.isLoading = false;
     });
   }
 

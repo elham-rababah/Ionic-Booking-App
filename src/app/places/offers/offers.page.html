@@ -16,7 +16,26 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
-        <ion-list>
+        <div
+          class="ion-align-items-center"
+          *ngIf="!isLoading && loadedOffers && loadedOffers.length <= 0"
+        >
+          <p>
+            NO Offer Found. Please Create one
+          </p>
+          <ion-button routerLink="routeName">
+            Create Offer
+          </ion-button>
+        </div>
+        <div class="ion-align-items-center">
+          <ion-spinner
+            name="bubbles"
+            *ngIf="isLoading"
+            color="primary"
+          ></ion-spinner>
+        </div>
+
+        <ion-list *ngIf="!isLoading && loadedOffers && loadedOffers.length > 0">
           <ion-item-sliding
             *ngFor="let loadedOffer of loadedOffers"
             #loadedOfferId
