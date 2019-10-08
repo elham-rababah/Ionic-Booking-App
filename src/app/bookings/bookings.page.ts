@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BookingsService } from "./bookings.service";
 import { Booking } from "./booking.model";
-import { LoadingController } from "@ionic/angular";
+import { LoadingController, IonItemSliding } from "@ionic/angular";
 
 @Component({
   selector: "app-bookings",
@@ -10,15 +10,18 @@ import { LoadingController } from "@ionic/angular";
 })
 export class BookingsPage implements OnInit {
   bookings: Booking[];
+  isLoading: boolean = false;
   constructor(
     private bookingsService: BookingsService,
     private loadingController: LoadingController
   ) {}
 
   ngOnInit() {
-    this.bookingsService.getAllBookings().subscribe(bookings => {
-      this.bookings = bookings;
-    });
+    this.getBooking();
+  }
+
+  ionViewWillEnter() {
+    this.getBooking();
   }
 
   onDelete(id) {
@@ -27,9 +30,16 @@ export class BookingsPage implements OnInit {
       .then(ele => {
         ele.present();
         this.bookingsService.cancelBooking(id).subscribe(() => {
-          console.log("Done");
+          this.getBooking();
           ele.dismiss();
         });
       });
+  }
+  getBooking() {
+    this.isLoading = true;
+    this.bookingsService.getAllBookings().subscribe(bookings => {
+      this.isLoading = false;
+      this.bookings = bookings;
+    });
   }
 }

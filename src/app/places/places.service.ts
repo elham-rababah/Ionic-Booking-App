@@ -9,48 +9,7 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root"
 })
 export class PlacesService {
-  private places = new BehaviorSubject<Place[]>([
-    // new Place(
-    //   "1",
-    //   "place1",
-    //   "Description1",
-    //   "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
-    //   1,
-    //   new Date("2019-01-01"),
-    //   new Date("2019-12-31"),
-    //   "2017"
-    // ),
-    // new Place(
-    //   "2",
-    //   "place2",
-    //   "Description",
-    //   "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
-    //   2,
-    //   new Date("2019-01-01"),
-    //   new Date("2019-12-31"),
-    //   "2017"
-    // ),
-    // new Place(
-    //   "3",
-    //   "place3",
-    //   "Description3",
-    //   "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
-    //   3,
-    //   new Date("2019-01-01"),
-    //   new Date("2019-12-31"),
-    //   "2017"
-    // ),
-    // new Place(
-    //   "4",
-    //   "place4",
-    //   "Description4",
-    //   "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
-    //   4,
-    //   new Date("2019-01-01"),
-    //   new Date("2019-12-31"),
-    //   "2017"
-    // )
-  ]);
+  private places = new BehaviorSubject<Place[]>([]);
   constructor(private authService: AuthService, private http: HttpClient) {}
   getAllPlaces() {
     return this.http
