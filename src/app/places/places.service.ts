@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, of } from "rxjs";
 import { take, map, tap, delay, switchMap } from "rxjs/operators";
 import { AuthService } from "../auth/auth.service";
 import { HttpClient } from "@angular/common/http";
+import { PlaceLocation } from "./location.model";
 
 @Injectable({
   providedIn: "root"
@@ -28,7 +29,8 @@ export class PlacesService {
                   res[key].price,
                   new Date(res[key].availableFrom),
                   new Date(res[key].availableTo),
-                  res[key].userId
+                  res[key].userId,
+                  res[key].location
                 )
               );
             }
@@ -56,16 +58,20 @@ export class PlacesService {
             res.price,
             new Date(res.availableFrom),
             new Date(res.availableTo),
-            res.userId
+            res.userId,
+            res.location
           );
         })
       );
-    // return this.places.pipe(
-    //   take(1),
-    //   map(places => {
-    //     return { ...places.find(p => p.id === id) };
-    //   })
-    // );
+  }
+
+  uploadImage(img: File) {
+    const uploadData = new FormData();
+    uploadData.append("image", img);
+    return this.http.post(
+      "https://us-central1-ionic-a4d3c.cloudfunctions.net/storeImage",
+      uploadData
+    );
   }
 
   addNewPlace(
@@ -73,18 +79,21 @@ export class PlacesService {
     descriptions: string,
     price: number,
     availableFrom: Date,
-    availableTo: Date
+    availableTo: Date,
+    location: PlaceLocation,
+    imgUrl: string
   ) {
     let generatedId: string;
     let newPlace = new Place(
       Math.random().toString(),
       title,
       descriptions,
-      "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26230815/5050815.jpg",
+      imgUrl,
       price,
       availableFrom,
       availableTo,
-      this.authService.getUserId()
+      this.authService.getUserId(),
+      location
     );
     return this.http
       .post<{ name: string }>(
@@ -130,7 +139,8 @@ export class PlacesService {
           oldPlace.price,
           oldPlace.availableFrom,
           oldPlace.availableTo,
-          oldPlace.userId
+          oldPlace.userId,
+          oldPlace.location
         );
         return this.http.put(
           `https://ionic-a4d3c.firebaseio.com/offered-places/${placeId}.json`,

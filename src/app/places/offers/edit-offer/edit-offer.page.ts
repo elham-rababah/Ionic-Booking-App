@@ -93,7 +93,5 @@ export class EditOfferPage implements OnInit {
           this.router.navigateByUrl("/places/tabs/offers");
         });
     });
-
-    // call the service
   }
 }

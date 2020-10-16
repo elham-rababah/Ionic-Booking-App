@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, RouterLink } from "@angular/router";
 import {
   NavController,
   ModalController,
@@ -12,6 +12,7 @@ import { PlacesService } from "../../places.service";
 import { Place } from "../../places.model";
 import { Booking } from "src/app/bookings/booking.model";
 import { BookingsService } from "src/app/bookings/bookings.service";
+import { MapModalComponent } from "src/app/shared/map-modal/map-modal.component";
 
 @Component({
   selector: "app-place-details",
@@ -19,7 +20,7 @@ import { BookingsService } from "src/app/bookings/bookings.service";
   styleUrls: ["./place-details.page.scss"]
 })
 export class PlaceDetailsPage implements OnInit {
-  place: any;
+  place: Place;
   isLoading: boolean = false;
   constructor(
     private modalCtrl: ModalController,
@@ -127,6 +128,25 @@ export class PlaceDetailsPage implements OnInit {
                 });
             });
         }
+      });
+  }
+
+  showLocation() {
+    this.modalCtrl
+      .create({
+        component: MapModalComponent,
+        componentProps: {
+          center: {
+            lat: this.place.location.lat,
+            lng: this.place.location.lng
+          },
+          selectable: false,
+          closeButtonText: "Close",
+          title: this.place.location.address
+        }
+      })
+      .then(ele => {
+        ele.present();
       });
   }
 }

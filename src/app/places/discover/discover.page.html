@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>discover</ion-title>
+    <ion-title>Discover</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu="menuId"></ion-menu-button>
     </ion-buttons>
@@ -16,8 +16,29 @@
       <ion-label>Bookable Places</ion-label>
     </ion-segment-button>
   </ion-segment>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <div
+          class="ion-align-items-center"
+          *ngIf="!isLoading && loadedPlaces && loadedPlaces.length <= 0"
+        >
+          <p color="primary">
+            NO Result Found.
+          </p>
+        </div>
+        <div text-center class="ion-margin">
+          <ion-spinner
+            name="bubbles"
+            *ngIf="isLoading"
+            color="primary"
+          ></ion-spinner>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-grid>
-    <ion-row *ngIf="loadedPlaces">
+    <ion-row *ngIf="loadedPlaces && loadedPlaces.length && !isLoading">
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
         <ion-card>
           <ion-header>
@@ -50,14 +71,11 @@
     </ion-row>
     <ion-row *ngIf="listedLoadedPlaces">
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
-        <ion-virtual-scroll
-          [items]="listedLoadedPlaces"
-          approxItemHeight="70px"
-        >
+        <ion-list>
           <ion-item
+            *ngFor="let loadedPlace of listedLoadedPlaces"
             [routerLink]="['/', 'places', 'tabs', 'discover', loadedPlace.id]"
             detail
-            *virtualItem="let loadedPlace"
           >
             <ion-thumbnail>
               <img [src]="loadedPlace.url" />
@@ -67,7 +85,7 @@
               <p>{{ loadedPlace.descriptions }}</p></ion-label
             >
           </ion-item>
-        </ion-virtual-scroll>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -24,6 +24,21 @@
         </div>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="!isLoading">
+      <ion-col size-sm="6" offset-sm="3" padding text-center>
+        <p>{{ place.location.address }}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!isLoading">
+      <ion-col size-sm="6" offset-sm="3" no-padding>
+        <ion-img
+          (click)="showLocation()"
+          role="button"
+          class="location-image"
+          [src]="place.location.staticMapImageUrl"
+        ></ion-img>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col *ngIf="!isLoading" size-sm="6" offset-sm="3" text-center>
         <ion-button color="primary" (click)="onBookPlace()">

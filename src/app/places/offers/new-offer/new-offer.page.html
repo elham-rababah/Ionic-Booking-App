@@ -5,7 +5,10 @@
     </ion-buttons>
     <ion-title>New Offer</ion-title>
     <ion-buttons slot="primary">
-      <ion-button (click)="onCreateOffer()" [disabled]="!form.valid">
+      <ion-button
+        (click)="onCreateOffer()"
+        [disabled]="!form.valid || !this.form.value.img"
+      >
         <ion-icon slot="icon-only" name="checkmark"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -46,7 +49,7 @@
             "
             lines="none"
           >
-            <ion-label position="floating" color="danger">
+            <ion-label color="danger">
               Description Must be between 0 and 180 char</ion-label
             ></ion-item
           >
@@ -74,7 +77,7 @@
         </ion-col>
         <ion-col size-sm="3">
           <ion-item>
-            <ion-label position="floating"> Available From</ion-label>
+            <ion-label position="floating"> Available To</ion-label>
             <ion-datetime
               display-format="DD.MM.YYYY"
               min="2019-01-03"
@@ -83,6 +86,22 @@
             ></ion-datetime>
           </ion-item>
         </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="8" offset-sm="2"
+          ><app-location-piker
+            [showPreview]="form.get('location').value"
+            (pickedLocationEvent)="pickedLocation($event)"
+          ></app-location-piker
+        ></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="8" offset-sm="2"
+          ><app-image-picker
+            [showPreview]="form.get('img').value"
+            (imagePickedEvent)="imagePicked($event)"
+          ></app-image-picker
+        ></ion-col>
       </ion-row>
     </ion-grid>
   </form>
